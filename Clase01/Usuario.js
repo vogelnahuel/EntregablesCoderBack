@@ -9,28 +9,55 @@ class Usuario {
         return `${this.nombre} ${this.apellido}`;
     }
     addMascota(mascota){
+        if(typeof mascota ==="string")
         this.mascotas.push(mascota);
+        else console.error("tiene que ingresar un string !!!");
     }
     countMascotas(){
         return this.mascotas.length;
     }
     addBook(nombre,autor){
-    this.libros.push({nombre:nombre,autor:autor})
+        if(typeof nombre !=="string"  || typeof autor  !=="string" )
+        console.error("tiene que ingresar un string en nombre y autor !!!");
+
+        else this.libros.push({nombre:nombre,autor:autor})
     }
     getBookNames(){
-        const bookNames=[];
-        this.libros.forEach(book =>bookNames.push(book.nombre) );
-        return bookNames;
+        
+        return this.libros.map(book => book.nombre );
+        
     }
 
 }
-let user = new Usuario("nahuel","vogel",[{nombre:"libro",autor:"autor"},{nombre:"libro2",autor:"autor2"}],["ati","tomas"])
 
-console.log(user.getFullName());
+let usuario  = new Usuario("Elon","Musk" ,[{nombre:"El señor de las moscas",autor:"William Golding"},{nombre:"Fundacion",autor:"Isaac Asimov"}],["perro","gato"])
 
-console.log(user.countMascotas());
-user.addMascota("nuevaMascota");
-console.log(user.countMascotas());
+console.log(usuario .getFullName());
+console.log("---------------------------------");
+console.log(usuario .countMascotas());
+usuario.addMascota("nuevaMascota");
+console.log(usuario .countMascotas());
+console.log("---------------------------------");
+console.log(usuario .getBookNames());
+usuario.addBook("libro3","autor3");
+console.log(usuario .getBookNames());
 
-user.addBook("libro3","autor3");
-console.log(user.getBookNames());
+
+console.log("---------------------------------");
+console.log("---------------------------------");
+console.log("---------------------------------");
+
+//test de tipos
+let usuario2  = new Usuario("nahuel","vogel",[],[])
+
+console.log(usuario2 .getFullName());
+console.log("---------------------------------");
+console.log(usuario2 .countMascotas());
+usuario2.addMascota(23);
+usuario2.addMascota("23");
+console.log(usuario2 .countMascotas());
+console.log("---------------------------------");
+console.log(usuario2 .getBookNames());
+usuario2.addBook(true,"autor");
+usuario2.addBook("libro3","autor3");
+console.log(usuario2 .getBookNames());
