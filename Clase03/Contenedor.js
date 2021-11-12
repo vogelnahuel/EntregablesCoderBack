@@ -1,74 +1,74 @@
 
+const Archivo =require('./Archivo.js')
+
 class Contenedor{
     constructor(){
         this.ContenedorObjetos=[];
-        crearArchivoYsobreEscribir("");
+        this.Archivo = new Archivo();
     }
     static contadorGlobal=0;
+
     save(Contenido){
         Contenedor.contadorGlobal++;
         Contenido.id=Contenedor.contadorGlobal;
         this.ContenedorObjetos.push(Contenido);
-        agregarArchivo(this.ContenedorObjetos[Contenido.id-1])
+        this.Archivo.crearArchivoYsobreEscribir(ruta,this.ContenedorObjetos);
     }
-    getById(numero){
-        const contenidoArch = leerArchivo(ruta,codificacion);
-        return contenidoArch.filter(contenido => contenido.id===numero);
+    
+    async getById(ruta,codificacion,numero){
+        const contenidoArch = await this.Archivo.leerArchivo(ruta,codificacion);
+        const  parseado = JSON.parse(contenidoArch);
+        const rta =   parseado.filter(contenido => contenido.id===numero);
+        const seleccionado = rta[0];
+        return seleccionado;
     }
-    getAll(){
-        return leerArchivo(ruta,codificacion);
-    }
-    deleteById(numero){
-        const contenidoArch = leerArchivo(ruta,codificacion);
-        const restantes = contenidoArch.filter(contenido => contenido.id!==numero);
-        crearArchivoYsobreEscribir(restantes)
-    }
-    deleteAll(){
-        crearArchivoYsobreEscribir("");
-    }
-}
 
-const ruta = 'salida.txt';
-const codificacion = 'utf-8';
-const fs = require('fs')
-
-const crearArchivoYsobreEscribir = async(contenido) => {
-    try {
-        await fs.promises.writeFile(ruta,contenido)
-    } catch (error) {
-        console.log(error)
+   async getAll(ruta,codificacion){
+        const data = await this.Archivo.leerArchivo(ruta,codificacion);
+        const  parseado = JSON.parse(data);
+        return parseado;
+    }
+    async deleteById(numero){
+        const contenidoArch = await this.Archivo.leerArchivo(ruta,codificacion);
+        const  parseado = JSON.parse(contenidoArch);
+        const rta =   parseado.filter(contenido => contenido.id!==numero);
+        await this.Archivo.crearArchivoYsobreEscribir(ruta,rta);
+    }
+    async deleteAll(){
+        await this.Archivo.crearArchivoYsobreEscribir(ruta,"");
     }
 }
 
+ const ruta = 'producto.txt';
+ const codificacion = 'utf-8';
+ const contenedor = new Contenedor();
+ setTimeout(() => {
+    contenedor.save({title : "titulo1" , price : 10 , thumbnail:"urlDelArchivo1"})
+ }, 0);
+ setTimeout(() => {
+    contenedor.save({title : "titulo2" , price : 20 , thumbnail:"urlDelArchivo2"})
+ }, 0);
+ setTimeout(() => {
+    contenedor.save({title : "titulo3" , price : 20 , thumbnail:"urlDelArchivo3"})
+ }, 0);
+
+ setTimeout(() => {
+    contenedor.getById(ruta,codificacion,2).then(data => {
+        console.log(data)
+    })
+ }, 100);
+
+setTimeout(() => {
+    contenedor.getAll(ruta,codificacion).then(data => {
+        console.log(data);
+    })
+}, 100);
+
+setTimeout(() => {
+    contenedor.deleteById(2).then(data => {
+        console.log(data)
+    })
+ }, 100);
 
 
-const leerArchivo = async(ruta,codificacion) => {
-    try {
-        const contenido = await fs.promises.readFile(ruta,codificacion);
-        console.log(contenido)
-        return contenido;
-        
-    } catch (error) {
-        console.log(error)
-    }
-}
 
-
-
-const agregarArchivo = async(contenido) => {
-    let insertar = JSON.stringify(contenido);
-     insertar = insertar + ",\n";
-    try {
-         await fs.promises.appendFile(ruta,insertar);
-
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-
-const contenedor = new Contenedor();
-contenedor.save({title : "titulo1" , price : 10 , thumbnail:"urlDelArchivo1"})
-contenedor.save({title : "titulo2" , price : 20 , thumbnail:"urlDelArchivo2"})
-contenedor.save({title : "titulo3" , price : 30 , thumbnail:"urlDelArchivo3"})
-console.log(contenedor.getAll())
