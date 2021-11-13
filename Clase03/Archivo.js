@@ -4,7 +4,7 @@ const fs = require('fs')
 class Archivo {
 
     crearArchivoYsobreEscribir = async (ruta, contenido) => {
-        let insertar = JSON.stringify(contenido, null, '\t');
+        const insertar = JSON.stringify(contenido, null, '\t');
         try {
             await fs.promises.writeFile(ruta, insertar)
         } catch (error) {

@@ -7,8 +7,20 @@
 	},
 	{
 		"title": "titulo3",
-		"price": 10,
+		"price": 30,
 		"thumbnail": "urlDelArchivo3",
 		"id": 3
+	},
+	{
+		"title": "titulo4",
+		"price": 40,
+		"thumbnail": "urlDelArchivo4",
+		"id": 4
+	},
+	{
+		"title": "titulo5",
+		"price": 50,
+		"thumbnail": "urlDelArchivo5",
+		"id": 5
 	}
 ]

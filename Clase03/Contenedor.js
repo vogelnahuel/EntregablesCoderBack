@@ -112,14 +112,17 @@ const contenedor = new Contenedor();
 
 /********************************************** PRUEBAS******************************************************** */
 FunctionsWrapper(0, "save", { ruta: ruta, title: "titulo1", price: 10, thumbnail: "urlDelArchivo1" });
-FunctionsWrapper(0, "save", { ruta: ruta, title: "titulo2", price: 10, thumbnail: "urlDelArchivo2" });
-FunctionsWrapper(0, "save", { ruta: ruta, title: "titulo3", price: 10, thumbnail: "urlDelArchivo3" });
+FunctionsWrapper(0, "save", { ruta: ruta, title: "titulo2", price: 20, thumbnail: "urlDelArchivo2" });
+FunctionsWrapper(0, "save", { ruta: ruta, title: "titulo3", price: 30, thumbnail: "urlDelArchivo3" });
+FunctionsWrapper(0, "save", { ruta: ruta, title: "titulo4", price: 40, thumbnail: "urlDelArchivo4" });
+FunctionsWrapper(0, "save", { ruta: ruta, title: "titulo5", price: 50, thumbnail: "urlDelArchivo5" });
 FunctionsWrapper(100, "getAll", { ruta: ruta, codificacion: codificacion });
 FunctionsWrapper(100, "getById", { ruta: ruta, codificacion: codificacion, id: 2 });
-FunctionsWrapper(100, "deleteById", { id: 4 });// no existe
+FunctionsWrapper(100, "deleteById", { id: 6 });// no existe
 FunctionsWrapper(200, "deleteById", { id: 2 });
 FunctionsWrapper(400, "getById", { ruta: ruta, codificacion: codificacion, id: 2 });
-// FunctionsWrapper(300,"deleteAll",{ruta:ruta});
+FunctionsWrapper(400, "getAll", { ruta: ruta, codificacion: codificacion });
+// FunctionsWrapper(500,"deleteAll",{ruta:ruta});
 
 
 
