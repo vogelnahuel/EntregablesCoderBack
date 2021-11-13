@@ -20,17 +20,13 @@ class Archivo {
             console.log(error)
         }
     }
-
-     agregarArchivo = async(contenido) => {
-
+    eliminarArchivo = async(ruta) => {
         try {
-             await fs.promises.appendFile(ruta,contenido);
-    
+           await fs.promises.unlink(ruta);
         } catch (error) {
             console.log(error)
         }
     }
-
 }
 
 module.exports = Archivo;
