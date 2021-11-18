@@ -16,25 +16,19 @@ app.get('/productos', (req, res) => {
    
 })
 app.get('/productoRandom',  (req, res) => {
-    const resul= leerArch();
-    res.send(resul)
+    const contenedor = new Contenedor();
+    const rta2 = contenedor.getAll("producto.txt","utf-8");
+    rta2.then(data => {
+        const random =  parseInt( Math.floor(Math.random() * (data.length - 1 + 1) + 1) ) ;
+        const rta =  contenedor.getById("producto.txt","utf-8",random);
+        rta.then(data => {
+            res.send(data)
+        })
+    })
+    
+   
 })
 
-const leerArch = () => {
-    const contenedor = new Contenedor();
-    const rta =  contenedor.getAll("producto.txt","utf-8");
-    rta.then(data => {
-        setTimeout(() => {
-            const parseado = JSON.parse(data);
-            const random =  parseInt( Math.floor(Math.random() * (parseado.length - 1 + 1) + 1) ) ;
-            const mostrarRandom =   parseado.filter(element => element.id ===random);
-            return mostrarRandom[0];
-        }, 200);
-
-    })
-   
-}
-
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+  console.log(`Corriendo en el puerto:${port}`)
 })
