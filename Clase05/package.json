@@ -1,0 +1,15 @@
+{
+  "name": "clase05",
+  "version": "1.0.0",
+  "description": "EntregableCoder",
+  "main": "App.js",
+  "scripts": {
+    "start": "nodemon App.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "vogel nahuel",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
