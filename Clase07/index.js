@@ -3,16 +3,10 @@ const {Router} = express;
 const app = express();
 const router = Router();
 const multer = require("multer")
+const {inicializacionFile,filtrar} = require("./utils")
 
 //configuracion para archivos file
-const storage = multer.diskStorage({
-    destination : function (req,file,callback){
-        callback(null,'public')
-    },
-    filename: function(req,file,callback){
-        callback(null,file.originalname)
-    }
-})
+const storage =inicializacionFile();
 const upload = multer({storage});
 
 //inicializacion de variables donde se guardan id y los productos
@@ -27,19 +21,20 @@ router.get('/',(req,res) => {
     res.json(productos)
 })
 
+
+
 router.get('/:id',(req,res,next) => {
-    const id = parseInt(req.params.id);
-    const filtrado =  productos.filter(producto => producto.id===id);
-    if(filtrado.length===0){
-        const error = new Error("producto no encontrado");
-        error.httpStatusCode=404;
-        return next(error); 
+    const idParam = parseInt(req.params.id);
+    const filtrado = filtrar(productos,idParam);
+    if(filtrado?.httpStatusCode){
+        return next(filtrado);
     }
     res.json(filtrado);
 })
 //mandar como nombre thumbnail  el campo si se utiliza desde postman la key para el File
 router.post('/',upload.single('thumbnail'),(req,res,next) => {
-    const file = req.file;
+
+    const file = req.file ? req.file : req.body.thumbnail;  // para saber si viene de postman o de un form
 
     if(!file){
         const error = new Error(" enviar file :( ");
@@ -55,12 +50,9 @@ router.post('/',upload.single('thumbnail'),(req,res,next) => {
 router.put('/:id',upload.single('thumbnail'),(req,res,next) => {
     const file = req.file;
     const idParam = parseInt(req.params.id);
-    const filtrado =  productos.filter(producto => producto.id===idParam);
-
-    if(filtrado.length===0){
-        const error = new Error("producto no encontrado");
-        error.httpStatusCode=404;
-        return next(error);
+    const filtrado = filtrar(productos,idParam);
+    if(filtrado?.httpStatusCode){
+        return next(filtrado);
     }
 
     const {title,price} = req.body;
@@ -74,21 +66,17 @@ router.put('/:id',upload.single('thumbnail'),(req,res,next) => {
     productos[idParam-1] = {title:titleInsert ,price:priceInsert,file:fileInsert,id:idParam}; 
     res.json({title:titleInsert ,price:priceInsert,file:fileInsert,id:idParam})
 })
+
 router.delete('/:id',(req,res,next) => {
 
     const idParam =  parseInt(req.params.id);
-    const eliminado =  productos.filter(producto => producto.id===idParam);
-
-    if(eliminado.length===0){
-        const error = new Error("producto no encontrado");
-        error.httpStatusCode=404;
-        return next(error);
+    const eliminado = filtrar(productos,idParam);
+    if(eliminado?.httpStatusCode){
+        return next(eliminado);
     }
     productos.splice((idParam-1),1); //elimino del array
     res.json({eliminado});
 })
-
-// app.use(express.static(__dirname+'public'))
 
 //donde se van a guardar las imagenes
 app.use(express.static('public'))
@@ -96,4 +84,3 @@ app.use(express.static('public'))
 app.use('/api/productos',router);
 
 app.listen(3000)
-
