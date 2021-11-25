@@ -1,0 +1,15 @@
+{
+  "name": "clase07",
+  "version": "1.0.0",
+  "description": "cuarto-entregable",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "nahuel vogel",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "multer": "^1.4.3"
+  }
+}
