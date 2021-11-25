@@ -2,9 +2,9 @@
   "name": "clase05",
   "version": "1.0.0",
   "description": "EntregableCoder",
-  "main": "App.js",
+  "main": "index.js",
   "scripts": {
-    "start": "nodemon App.js",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "vogel nahuel",

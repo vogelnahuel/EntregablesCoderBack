@@ -40,11 +40,8 @@ class Contenedor {
     }
 }
 
-
 const ruta = 'producto.txt';
 const codificacion = 'utf-8';
-
-
 module.exports = Contenedor;
 
 
