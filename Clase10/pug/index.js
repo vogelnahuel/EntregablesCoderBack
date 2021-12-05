@@ -49,6 +49,7 @@ router.post('/',upload.single('thumbnail'),(req,res,next) => {
     }
     id++;
     const {title,price} = req.body;
+    console.log(file);
     productos.push({title,price,file:file.filename,id});
 
     return res.redirect("/list")
