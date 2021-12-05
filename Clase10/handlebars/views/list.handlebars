@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+
+            <table>
+                <tr>
+                    <th>Titulo</th>
+                    <th>Precio</th>
+                    <th>Autor</th>
+                </tr>
+                {{#each productos}}
+                    <tr>
+                        <td>{{this.title}}</td>
+                        <td>{{this.price}}</td>
+                        <td><img src={{this.file}} width="100px;"></td>
+                    </tr>
+                {{/each}}
+            </table>
+
+    <a href="/">Ingresar nuevo libro</a>
+</body>
+</html>
