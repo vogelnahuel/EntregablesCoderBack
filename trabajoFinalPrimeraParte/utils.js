@@ -1,7 +1,7 @@
-const filtrar = (productos,idParam) => {
-    const filtrado =  productos.filter(producto => producto.id===idParam);
+const filtrar = (array,idParam) => {
+    const filtrado =  array.filter(array => array.id===idParam);
     if(filtrado.length===0){
-        const error = new Error("producto no encontrado");
+        const error = new Error("elemento  no encontrado");
         error.httpStatusCode=404;
         return error; 
     }
