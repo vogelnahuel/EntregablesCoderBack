@@ -1,0 +1,72 @@
+[
+	{
+		"nombre": "test3",
+		"descripcion": "test3",
+		"codigo": "test3",
+		"precio": "25",
+		"stock": "test3",
+		"foto": "Sin título.png",
+		"timestamp": 1638992418635,
+		"id": 1
+	},
+	{
+		"nombre": "test3",
+		"descripcion": "test3",
+		"codigo": "test3",
+		"precio": "25",
+		"stock": "test3",
+		"foto": "Sin título.png",
+		"timestamp": 1638992420717,
+		"id": 2
+	},
+	{
+		"nombre": "test3",
+		"descripcion": "test3",
+		"codigo": "test3",
+		"precio": "25",
+		"stock": "test3",
+		"foto": "Sin título.png",
+		"timestamp": 1638992421437,
+		"id": 3
+	},
+	{
+		"nombre": "test3",
+		"descripcion": "test3",
+		"codigo": "test3",
+		"precio": "25",
+		"stock": "test3",
+		"foto": "Sin título.png",
+		"timestamp": 1638992422048,
+		"id": 4
+	},
+	{
+		"nombre": "test3",
+		"descripcion": "test3",
+		"codigo": "test3",
+		"precio": "25",
+		"stock": "test3",
+		"foto": "Sin título.png",
+		"timestamp": 1638992431370,
+		"id": 5
+	},
+	{
+		"nombre": "test3",
+		"descripcion": "test3",
+		"codigo": "test3",
+		"precio": "25",
+		"stock": "test3",
+		"foto": "Sin título.png",
+		"timestamp": 1638992431902,
+		"id": 6
+	},
+	{
+		"nombre": "test3",
+		"descripcion": "test3",
+		"codigo": "test3",
+		"precio": "25",
+		"stock": "test3",
+		"foto": "Sin título.png",
+		"timestamp": 1638992432433,
+		"id": 7
+	}
+]

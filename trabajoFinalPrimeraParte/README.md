@@ -32,6 +32,6 @@ Probar todas las rutas de la api
 
 2. Se elimino el bug  de que se actualize el cual no se le pasa nada y sea  producto vacio
 
-
+3. Se elimino el bug aca de insertar elementos en el final del carrito x eliminando carrito x-1  y querer eliminar el ultimo del carrito x
 
 

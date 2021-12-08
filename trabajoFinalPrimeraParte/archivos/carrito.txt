@@ -1,0 +1,56 @@
+[
+	{
+		"id": 1,
+		"carrito": {
+			"productos": [],
+			"idProductos": 0,
+			"timestamp": 1638999531343
+		}
+	},
+	{
+		"id": 2,
+		"carrito": {
+			"productos": [],
+			"idProductos": 0,
+			"timestamp": 1638999531848
+		}
+	},
+	{
+		"id": 4,
+		"carrito": {
+			"productos": [
+				{
+					"nombre": "test3",
+					"descripcion": "test",
+					"codigo": "test",
+					"precio": "22",
+					"stock": "test",
+					"foto": "Sin título.png",
+					"timestamp": 1638999537860,
+					"id": 1
+				}
+			],
+			"idProductos": 4,
+			"timestamp": 1638999532704
+		}
+	},
+	{
+		"id": 5,
+		"carrito": {
+			"productos": [
+				{
+					"nombre": "test3",
+					"descripcion": "test",
+					"codigo": "test",
+					"precio": "22",
+					"stock": "test",
+					"foto": "Sin título.png",
+					"timestamp": 1638999559535,
+					"id": 2
+				}
+			],
+			"idProductos": 2,
+			"timestamp": 1638999553457
+		}
+	}
+]

@@ -1,0 +1,26 @@
+<html>
+<head>
+</head>
+<body>
+
+        <script language="JavaScript">
+            
+            var numero1
+            var numero2
+            numero1  =   prompt('Ingrese primer numero franco:','');
+            numero2  =   prompt('Ingrese segundo numero: Franco','');
+            const salida =  Number (numero1) -  Number (numero2);
+
+           const div = document.createElement('div');
+           div.innerHTML = `
+           <p style ="color:red">
+                    El resultado de su cuenta es el siguiente --> ${salida}
+            </p>
+           `
+            document.appendChild(div)
+
+        </script>
+
+
+</body>
+</html>
