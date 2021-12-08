@@ -1,0 +1,42 @@
+[
+	{
+		"nombre": "test3",
+		"descripcion": "test3",
+		"codigo": "test3",
+		"precio": "25",
+		"stock": "test3",
+		"foto": "fondo de pantalla.png",
+		"timestamp": 1638972501577,
+		"id": 2
+	},
+	{
+		"nombre": "actualizarTest",
+		"descripcion": "actualizarTest",
+		"codigo": "actualizarTest",
+		"precio": "23",
+		"stock": "actualizarTest",
+		"foto": "post interesante.png",
+		"timestamp": 1638972520175,
+		"id": 2
+	},
+	{
+		"nombre": "test3",
+		"descripcion": "test3",
+		"codigo": "test3",
+		"precio": "25",
+		"stock": "test3",
+		"foto": "fondo de pantalla.png",
+		"timestamp": 1638972503834,
+		"id": 4
+	},
+	{
+		"nombre": "test3",
+		"descripcion": "test3",
+		"codigo": "test3",
+		"precio": "25",
+		"stock": "test3",
+		"foto": "fondo de pantalla.png",
+		"timestamp": 1638972504339,
+		"id": 5
+	}
+]

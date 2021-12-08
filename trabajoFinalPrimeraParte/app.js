@@ -11,26 +11,36 @@ const storage =inicializacionFile();
 const upload = multer({storage});
 
 
-//inicializacion de variables donde se guardan id y los productos
-const productos = [];
-let id =0;
+
 
 //para los form como objetos
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
 
 
-router.get('/:id?',(req,res,next) => {
+//inicializacion de variables donde se guardan id y los productos
+let productos = [];
+
+const Producto = require('./productos');
+const Archivo = require('./Archivo.js')
+const rutaProductos = 'producto.txt';
+const rutaCarritos  = 'carrito.txt';
+const codificacion = 'utf-8';
+const archivo = new Archivo();
+
+router.get('/:id?', async(req,res,next) => {
     const idParam = parseInt(req.params.id);
+    let contenidoProductosArchivo = await  archivo.leerArchivo(rutaProductos,codificacion);
+
     if(idParam){
-        const filtrado = filtrar(productos,idParam);
+        const filtrado = filtrar(contenidoProductosArchivo,idParam);
         if(filtrado?.httpStatusCode){
             return next(filtrado);
         }
-        res.json(filtrado);
+        res.json(filtrado[0]);
     }
     else{
-        res.json(productos)
+        res.json(contenidoProductosArchivo)
     }
   
 })
@@ -45,12 +55,18 @@ router.post('/',upload.single('foto'),(req,res,next) => {
         error.httpStatusCode=400;
         return next(error);
     }
-    id++;
+  
     const timestamp = Date.now();
     const {nombre,descripcion,codigo,precio,stock} = req.body;
-    productos.push({nombre,descripcion,codigo,precio,stock,foto:foto.filename,id,timestamp});
 
-    return res.json({nombre,descripcion,codigo,precio,stock,foto:foto.filename,id,timestamp})
+    const nuevoProducto = new Producto();
+    nuevoProducto.crearProducto({nombre,descripcion,codigo,precio,stock,foto:foto.filename,timestamp});
+    
+    productos.push(nuevoProducto);
+
+    archivo.crearArchivoYsobreEscribir(rutaProductos,productos);
+   
+    return res.json(nuevoProducto)
 })
 
 
@@ -65,30 +81,35 @@ router.put('/:id',upload.single('foto'),(req,res,next) => {
 
     const {nombre,descripcion,codigo,precio,stock} = req.body;
 
+
    //solamente cambio los pasados por parametro y si no estan dejo los que ya estaban
     const nombreInsert = nombre ? nombre : filtrado[0].nombre;
     const descripcionInsert = descripcion ? descripcion : filtrado[0].descripcion;
     const codigoInsert = codigo ? codigo : filtrado[0].codigo;
     const precioInsert = precio ? precio : filtrado[0].precio;
     const stockInsert = stock ? stock : filtrado[0].stock;
-    const fotoInsert = foto ? foto : filtrado[0].foto;
+    const fotoInsert = foto ? foto.filename : filtrado[0].foto;
     const timestamp = Date.now();
 
-    //actualizo el array en la posicion pasada
+    productos[idParam-1].actualizarProducto({nombre:nombreInsert,descripcion:descripcionInsert,codigo:codigoInsert,precio:precioInsert,stock:stockInsert,foto:fotoInsert,timestamp,id:(idParam)});
+    archivo.crearArchivoYsobreEscribir(rutaProductos,productos);
 
-    productos[idParam-1]={nombre:nombreInsert,descripcion:descripcionInsert,codigo:codigoInsert,precio:precioInsert,stock:stockInsert,foto:fotoInsert,timestamp,id:(idParam)}; 
-    res.json({nombre:nombreInsert,descripcion:descripcionInsert,codigo:codigoInsert,precio:precioInsert,stock:stockInsert,foto:fotoInsert,id:(idParam-1),timestamp})
+    res.json({nombre:nombreInsert,descripcion:descripcionInsert,codigo:codigoInsert,precio:precioInsert,stock:stockInsert,foto:fotoInsert,id:(idParam),timestamp})
 })
 
 router.delete('/:id',(req,res,next) => {
 
     const idParam =  parseInt(req.params.id);
+
     const eliminado = filtrar(productos,idParam);
+
     if(eliminado?.httpStatusCode){
         return next(eliminado);
     }
-    productos.splice((idParam-1),1); //elimino del array
-    res.json({eliminado});
+    const todosMenosEliminado = productos.filter(producto => producto.id !== idParam)
+    productos=todosMenosEliminado;
+    archivo.crearArchivoYsobreEscribir(rutaProductos,productos);
+    res.json(eliminado[0]);
 })
 
 
@@ -104,6 +125,9 @@ router2.post('/',(req,res) => {
     const carrito = new Carrito();
     const creado = carrito.crearCarrito()
     contenedorCarritos.push({id:Carrito.id,carrito});
+
+    archivo.crearArchivoYsobreEscribir(rutaCarritos,contenedorCarritos);
+
     res.json({id:Carrito.id,timestamp:creado.timestamp,productos:creado.productos});
 })
 
@@ -114,15 +138,19 @@ router2.delete('/:id',(req,res,next) => {
     if(eliminado?.httpStatusCode){
         return next(eliminado);
     }
-    const todosMenosEliminado = contenedorCarritos.filter(carrito => carrito.id !== id)
+    const todosMenosEliminado = contenedorCarritos.filter(carrito => carrito.id !== idParam)
     contenedorCarritos=todosMenosEliminado;
+
+    archivo.crearArchivoYsobreEscribir(rutaCarritos,contenedorCarritos);
 
     res.json({id:idParam,timestamp:eliminado[0].carrito.timestamp,productos:eliminado[0].carrito.productos});
    
 })
 router2.get('/:id/productos',(req,res,next) => {
     const idParam =  parseInt(req.params.id);
+
     const seleccionado = filtrar(contenedorCarritos,idParam);
+
     if(seleccionado?.httpStatusCode){
         return next(seleccionado);
     }
@@ -147,9 +175,14 @@ router2.post('/:id/productos',upload.single('foto'),(req,res,next) => {
     
     const timestamp = Date.now();
     const {nombre,descripcion,codigo,precio,stock} = req.body;
-
-    const id=contenedorCarritos[(idParam-1)].carrito.insertarProducto({nombre,descripcion,codigo,precio,stock,foto:foto.filename,timestamp})
     
+    const idAFiltrar = contenedorCarritos.findIndex(contenedor => contenedor.id == idParam)
+
+
+    const id=contenedorCarritos[(idAFiltrar)].carrito.insertarProducto({nombre,descripcion,codigo,precio,stock,foto:foto.filename,timestamp})
+    
+    archivo.crearArchivoYsobreEscribir(rutaCarritos,contenedorCarritos);
+
     res.json({nombre,descripcion,codigo,precio,stock,foto:foto.filename,id,timestamp});
 })
 
@@ -176,6 +209,9 @@ router2.delete('/:id/productos/:id_prod',(req,res,next) => {
 
 
     contenedorCarritos[(idParam-1)].carrito.eliminarProducto(idParamProd) //elimino del array
+
+    archivo.crearArchivoYsobreEscribir(rutaCarritos,contenedorCarritos);
+
     res.json({nombre,descripcion,codigo,precio,stock,foto,id,timestamp});
    
 })
