@@ -16,11 +16,13 @@ npm i
 
 2. Ejecutar :
 
-```app.js  que es el archivo principal
+```
+app.js  que es el archivo principal
 ```
 
 3. rutas :
-```Probar todas las rutas de la api
+```
+Probar todas las rutas de la api
 ```
 
 
