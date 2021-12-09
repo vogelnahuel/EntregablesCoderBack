@@ -11,7 +11,7 @@ class Carrito {
     }
     insertarProducto(producto){
         this.idProductos++;
-        producto.id=this.idProductos;
+        producto.id=this.idProductos | 0;
         this.productos.push(producto);
         return this.idProductos;
     }

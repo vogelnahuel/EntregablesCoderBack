@@ -1,4 +1,9 @@
 const filtrar = (array,idParam) => {
+    if(array===undefined || array.length===0){
+        const error = new Error("elemento  no encontrado");
+        error.httpStatusCode=404;
+        return error; 
+    }
     const filtrado =  array.filter(array => array.id===idParam);
     if(filtrado.length===0){
         const error = new Error("elemento  no encontrado");

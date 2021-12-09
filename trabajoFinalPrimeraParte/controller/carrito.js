@@ -3,7 +3,7 @@ const {filtrar} = require("../utils/utils")
 const Archivo = require('../model/Archivo.js')
 const Carrito = require("../model/carrito");
 const rutaCarritos  = 'archivos/carrito.txt';
-
+const rutaProductos = 'archivos/producto.txt';
 const codificacion = 'utf-8';
 const archivo = new Archivo();
 
@@ -42,8 +42,10 @@ const carritoGet = async (req, res, next) => {
 
 //agrega de a 1 producto al carrito
 const carritoProductoPost = async(req, res, next) => {
-    const idParam = parseInt(req.params.id);
-    const seleccionado = filtrar(contenedorCarritos, idParam);
+
+    const { idUser } = req.body;
+  
+    const seleccionado = filtrar(contenedorCarritos, parseInt(idUser));
     if (seleccionado?.httpStatusCode) {
         return next(seleccionado);
     }
@@ -53,17 +55,29 @@ const carritoProductoPost = async(req, res, next) => {
         error.httpStatusCode = 400;
         return next(error);
     }
-    const timestamp = Date.now();
-    const { nombre, descripcion, codigo, precio, stock } = req.body;
+    const idParam = parseInt(req.params.id);
 
-    const idAFiltrar = contenedorCarritos.findIndex(contenedor => contenedor.id == idParam)
+    let contenidoProductosArchivo = await  archivo.leerArchivo(rutaProductos,codificacion);
 
+    const seleccionadoProducto = filtrar(contenidoProductosArchivo, idParam);
 
-    const id = contenedorCarritos[(idAFiltrar)].carrito.insertarProducto({ nombre, descripcion, codigo, precio, stock, foto: foto.filename, timestamp })
+    if(!seleccionadoProducto?.httpStatusCode)
+    {
+        const idAFiltrar = contenedorCarritos.findIndex(contenedor => contenedor.id == idUser);
+        contenedorCarritos[(idAFiltrar)].carrito.insertarProducto(seleccionadoProducto[0])
+        await archivo.crearArchivoYsobreEscribir(rutaCarritos, contenedorCarritos);
+        res.json(seleccionadoProducto[0]);
+    }
+    else{
+        const error = new Error("Producto no encontrado ");
+        error.httpStatusCode = 400;
+        return next(error);
+    }
+   
 
-    await archivo.crearArchivoYsobreEscribir(rutaCarritos, contenedorCarritos);
+    
 
-    res.json({ nombre, descripcion, codigo, precio, stock, foto: foto.filename, id, timestamp });
+   
 }
 
 
