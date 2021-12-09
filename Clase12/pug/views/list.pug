@@ -1,0 +1,14 @@
+html
+    head    
+        title="Pug"
+    body 
+    if (productos.length == 0)
+        h2="no hay productos"
+    else 
+        each producto in productos
+            ul
+                li= producto.title
+                li= producto.price
+                img(src=producto.file width="100px")
+
+    a(href="/")="Ingresar nuevo libro" 

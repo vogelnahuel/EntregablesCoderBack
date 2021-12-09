@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+      
+    <% if (productos.length == 0) {%>
+        <h2>No hay libros</h2>
+    <% } else { %>
+        <table>
+            <tr>
+                <th>Titulo</th>
+                <th>Precio</th>
+                <th>Autor</th>
+            </tr>
+            <% productos.forEach((producto) => { %>
+                <tr>
+                    <td><%= producto.title %></td>
+                    <td><%= producto.price %></td>
+                    <td><img src="<%= producto.file %>" width="100px;"></td>
+                </tr>
+            <% }) %>
+        </table>
+    <% } %>
+
+
+<a href="/">Ingresar nuevo libro</a>
+
+
+<script src='/socket.io/socket.io.js'></script>
+<script src="./index.js"></script>
+
+</body>
+</html>

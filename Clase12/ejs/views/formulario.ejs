@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <form 
+        action="/productos"
+        method="post"
+        enctype="multipart/form-data"
+    >
+        Titulo: <input name="title" id="title"><br>
+        precio: <input name="price" type="number" id="number"><br>
+        (url)Imagen: <input type="text" name="thumbnail" id="thumbnail"><br>
+        <br><br>
+        <input type="submit" id="emitirProducto">
+    </form>
+
+    <a href="/productos">Mostrar lista de libros</a>
+
+    <table class="table table-striped">
+        <thead>
+            <th class="col">Nombre</th>
+            <th class="col">Precio</th>
+            <th class="col">Foto</th>
+        </thead>
+        <tbody id="tbody">
+        </tbody>
+    </table>
+
+
+   <script src='/socket.io/socket.io.js'></script>
+    <script src="./index.js"></script>
+</body>
+</html>
