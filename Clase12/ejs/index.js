@@ -19,34 +19,36 @@ const productos = [
   {
     id: 1,
     title: "Lapicera",
-    price: 75.6,
+    number: 75.6,
     thumbnail:
       "https://www.bikabik.com.ar/wp-content/uploads/2020/07/lapicera-bic-trazo-fino1-71ebc33f028281085915864477484945-640-0-min.jpg",
   },
   {
     id: 2,
     title: "Cartuchera",
-    price: 590.6,
+    number: 590.6,
     thumbnail:
       "http://d3ugyf2ht6aenh.cloudfront.net/stores/822/270/products/aliens21-1bebf4f1f2a6f4501c15844666646646-640-0.png",
   },
   {
     id: 3,
     title: "Taza",
-    price: 750,
+    number: 750,
     thumbnail: "https://m.media-amazon.com/images/I/41gdpnvdSQL._AC_SX425_.jpg",
   },
 ];
+const mensajes = [];
 
 let id = 3;
 
 app.set("views", "./views");
 app.set("view engine", "ejs");
 
-//para los form como objetos
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+//sockets
 httpServer.listen(process.env.PORT || 8080, () => {
   console.log("SERVER ON");
 });
@@ -57,7 +59,21 @@ io.on("connection", (socket) => {
     productos.push(obj)
     socket.emit("productList", productos);
   });
+  socket.on("getMensaje", (obj) => {
+    mensajes.push(obj)
+    socket.emit("mensajesList", mensajes);
+  });
+
 });
+
+
+
+
+
+
+
+
+
 
 router.get("/", (req, res) => {
   return res.render("list", { productos });
@@ -76,8 +92,8 @@ router.get("/:id", (req, res, next) => {
 router.post("/" , (req, res ) => {
  
   id++;
-  const { title, price } = req.body;
-  productos.push({ title, price, file: file.filename, id });
+  const { title, price,thumbnail } = req.body;
+  productos.push({ title, price, thumbnail, id });
 
   return res.redirect("/list");
 });
