@@ -2,12 +2,9 @@ const express = require("express");
 const { Router } = express;
 const app = express();
 const router = Router();
-const multer = require("multer");
-const { inicializacionFile, filtrar } = require("./utils");
+const { filtrar } = require("./utils");
 
-//configuracion para archivos file
-const storage = inicializacionFile();
-const upload = multer({ storage });
+
 
 const { Server: HttpServer } = require("http");
 const { Server: IOServer } = require("socket.io");
@@ -18,26 +15,26 @@ const io = new IOServer(httpServer);
 const productos = [
   {
     id: 1,
-    title: "Lapicera",
+    title: "Fideos",
     number: 75.6,
     thumbnail:
-      "https://www.bikabik.com.ar/wp-content/uploads/2020/07/lapicera-bic-trazo-fino1-71ebc33f028281085915864477484945-640-0-min.jpg",
+      "https://http2.mlstatic.com/D_NQ_NP_626878-MLA42886753623_072020-O.jpg",
   },
   {
     id: 2,
-    title: "Cartuchera",
+    title: "Atun",
     number: 590.6,
     thumbnail:
-      "http://d3ugyf2ht6aenh.cloudfront.net/stores/822/270/products/aliens21-1bebf4f1f2a6f4501c15844666646646-640-0.png",
+      "https://ardiaprod.vteximg.com.br/arquivos/ids/184140-1000-1000/Atun-en-Aceite-La-Campagnola-170-Gr-_1.jpg?v=637427537426970000",
   },
   {
     id: 3,
-    title: "Taza",
+    title: "Arroz",
     number: 750,
-    thumbnail: "https://m.media-amazon.com/images/I/41gdpnvdSQL._AC_SX425_.jpg",
+    thumbnail: "https://maxiconsumo.com/pub/media/catalog/product/cache/c687aa7517cf01e65c009f6943c2b1e9/5/6/569.jpg",
   },
 ];
-const mensajes = [];
+
 
 let id = 3;
 
