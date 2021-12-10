@@ -1,20 +1,24 @@
-
 const multer = require("multer");
-const {Router} = require('express');
-const {inicializacionFile} = require("../utils/utils")
-const storage =inicializacionFile();
-const upload = multer({storage});
+const { Router } = require("express");
+const { inicializacionFile } = require("../utils/utils");
+const storage = inicializacionFile();
+const upload = multer({ storage });
 
-const { productoGet, productoPut, productoPost, productoDelete } = require('../controller/producto');
+const {
+  productoGet,
+  productoPut,
+  productoPost,
+  productoDelete,
+} = require("../controller/producto");
 
-const router = Router();
+const routerProductos = Router();
 
-router.get('/:id?', productoGet)
+routerProductos.get("/:id?", productoGet);
 
-router.put('/:id', upload.single('foto'), productoPut)
+routerProductos.put("/:id", upload.single("foto"), productoPut);
 
-router.post('/',upload.single('foto'),productoPost )
+routerProductos.post("/", upload.single("foto"), productoPost);
 
-router.delete('/:id',  productoDelete)
+routerProductos.delete("/:id", productoDelete);
 
-module.exports=router;
+module.exports = routerProductos;

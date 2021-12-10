@@ -1,123 +1,139 @@
-
-const {filtrar} = require("../utils/utils")
-const Archivo = require('../model/Archivo.js')
+const { filtrar } = require("../utils/utils");
+const Archivo = require("../model/Archivo.js");
 const Carrito = require("../model/carrito");
-const rutaCarritos  = 'archivos/carrito.txt';
-const rutaProductos = 'archivos/producto.txt';
-const codificacion = 'utf-8';
+const rutaCarritos = "archivos/carrito.txt";
+const rutaProductos = "archivos/producto.txt";
+const codificacion = "utf-8";
 const archivo = new Archivo();
 
-let contenedorCarritos = []
+let contenedorDeCarritos = [];
 
 const carritoPost = async (req, res) => {
-    const carrito = new Carrito();
-    const creado = carrito.crearCarrito()
-    contenedorCarritos.push({ id: Carrito.id, carrito });
+  const carrito = new Carrito();
+  const creado = carrito.crearCarrito();
+  contenedorDeCarritos.push({ id: Carrito.id, carrito });
 
-    await archivo.crearArchivoYsobreEscribir(rutaCarritos, contenedorCarritos);
+  await archivo.crearArchivoYsobreEscribir(rutaCarritos, contenedorDeCarritos);
 
-    res.json({ id: Carrito.id, timestamp: creado.timestamp, productos: creado.productos });
-}
+  res.json({
+    id: Carrito.id,
+    timestamp: creado.timestamp,
+    productos: creado.productos,
+  });
+};
 
- const carritoDelete = async(req, res, next) => {
-    const idParam = parseInt(req.params.id);
-    const eliminado = filtrar(contenedorCarritos, idParam);
-    if (eliminado?.httpStatusCode) {
-        return next(eliminado);
-    }
-    const todosMenosEliminado = contenedorCarritos.filter(carrito => carrito.id !== idParam)
-    contenedorCarritos = todosMenosEliminado;
-   await archivo.crearArchivoYsobreEscribir(rutaCarritos, contenedorCarritos);
-    res.json({ id: idParam, timestamp: eliminado[0].carrito.timestamp, productos: eliminado[0].carrito.productos });
+const carritoDelete = async (req, res, next) => {
+  const idParam = parseInt(req.params.id);
+  const eliminado = filtrar(contenedorDeCarritos, idParam);
+  if (eliminado?.httpStatusCode) {
+    return next(eliminado);
+  }
+  const todosMenosEliminado = contenedorDeCarritos.filter(
+    (carrito) => carrito.id !== idParam
+  );
+  contenedorDeCarritos = todosMenosEliminado;
 
-}
+  await archivo.crearArchivoYsobreEscribir(rutaCarritos, contenedorDeCarritos);
+  res.json({
+    id: idParam,
+    timestamp: eliminado[0].carrito.timestamp,
+    productos: eliminado[0].carrito.productos,
+  });
+};
+
 const carritoGet = async (req, res, next) => {
-    const idParam = parseInt(req.params.id);
-    const seleccionado = filtrar(contenedorCarritos, idParam);
-    if (seleccionado?.httpStatusCode) {
-        return next(seleccionado);
-    }
-    res.json({ productos: seleccionado[0].carrito.productos })
-}
+  const idParam = parseInt(req.params.id);
+  const seleccionado = filtrar(contenedorDeCarritos, idParam);
+  if (seleccionado?.httpStatusCode) {
+    return next(seleccionado);
+  }
+  res.json({ productos: seleccionado[0].carrito.productos });
+};
 
 //agrega de a 1 producto al carrito
-const carritoProductoPost = async(req, res, next) => {
+const carritoProductoPost = async (req, res, next) => {
+  const { idUser } = req.body;
 
-    const { idUser } = req.body;
-  
-    const seleccionado = filtrar(contenedorCarritos, parseInt(idUser));
-    if (seleccionado?.httpStatusCode) {
-        return next(seleccionado);
-    }
-    const foto = req.file ? req.file : req.body.foto;  // para saber si viene de postman o de un form
-    if (!foto) {
-        const error = new Error(" enviar file :( ");
-        error.httpStatusCode = 400;
-        return next(error);
-    }
-    const idParam = parseInt(req.params.id);
+  const seleccionado = filtrar(contenedorDeCarritos, parseInt(idUser));
+  if (seleccionado?.httpStatusCode) {
+    return next(seleccionado);
+  }
+  const foto = req.file ? req.file : req.body.foto; // para saber si viene de postman o de un form
+  if (!foto) {
+    const error = new Error(" enviar file :( ");
+    error.httpStatusCode = 400;
+    return next(error);
+  }
+  const idParam = parseInt(req.params.id);
 
-    let contenidoProductosArchivo = await  archivo.leerArchivo(rutaProductos,codificacion);
+  let contenidoProductosArchivo = await archivo.leerArchivo(
+    rutaProductos,
+    codificacion
+  );
 
-    const seleccionadoProducto = filtrar(contenidoProductosArchivo, idParam);
+  const seleccionadoProducto = filtrar(contenidoProductosArchivo, idParam);
 
-    if(!seleccionadoProducto?.httpStatusCode)
-    {
-        const idAFiltrar = contenedorCarritos.findIndex(contenedor => contenedor.id == idUser);
-        contenedorCarritos[(idAFiltrar)].carrito.insertarProducto(seleccionadoProducto[0])
-        await archivo.crearArchivoYsobreEscribir(rutaCarritos, contenedorCarritos);
-        res.json(seleccionadoProducto[0]);
-    }
-    else{
-        const error = new Error("Producto no encontrado ");
-        error.httpStatusCode = 400;
-        return next(error);
-    }
-   
+  if (!seleccionadoProducto?.httpStatusCode) {
+    const idAFiltrar = contenedorDeCarritos.findIndex(
+      (contenedor) => contenedor.id == idUser
+    );
+    contenedorDeCarritos[idAFiltrar].carrito.insertarProducto(
+      seleccionadoProducto[0]
+    );
 
-    
+    await archivo.crearArchivoYsobreEscribir(
+      rutaCarritos,
+      contenedorDeCarritos
+    );
 
-   
-}
+    res.json(seleccionadoProducto[0]);
+  } else {
+    const error = new Error("Producto no encontrado ");
+    error.httpStatusCode = 400;
+    return next(error);
+  }
+};
 
+const carritoProductoDelete = async (req, res, next) => {
+  const idParam = parseInt(req.params.id);
 
+  const carritoSeleccionado = filtrar(contenedorDeCarritos, idParam);
+  if (carritoSeleccionado?.httpStatusCode) {
+    return next(carritoSeleccionado);
+  }
+  const idAFiltrar = contenedorDeCarritos.findIndex(
+    (contenedor) => contenedor.id == idParam
+  );
 
-const carritoProductoDelete = async(req, res, next) => {
-    const idParam = parseInt(req.params.id);
+  const idParamProd = parseInt(req.params.id_prod);
+  let productoSeleccionado = filtrar(
+    contenedorDeCarritos[idAFiltrar].carrito.productos,
+    idParamProd
+  );
+  if (productoSeleccionado?.httpStatusCode) {
+    return next(productoSeleccionado);
+  }
+  productoSeleccionado = productoSeleccionado[0];
 
-   
- 
+  contenedorDeCarritos[idAFiltrar].carrito.eliminarProducto(idParamProd); //elimino del array
 
-    const carritoSeleccionado = filtrar(contenedorCarritos, idParam);
-    if (carritoSeleccionado?.httpStatusCode) {
-        return next(carritoSeleccionado);
-    }
-    const idAFiltrar = contenedorCarritos.findIndex(contenedor => contenedor.id == idParam)
+  await archivo.crearArchivoYsobreEscribir(rutaCarritos, contenedorDeCarritos);
+  res.json({
+    nombre: productoSeleccionado.nombre,
+    descripcion: productoSeleccionado.descripcion,
+    codigo: productoSeleccionado.codigo,
+    precio: productoSeleccionado.precio,
+    stock: productoSeleccionado.stock,
+    foto: productoSeleccionado.foto,
+    id: productoSeleccionado.id,
+    timestamp: productoSeleccionado.timestamp,
+  });
+};
 
-    const idParamProd = parseInt(req.params.id_prod);
-    const productoSeleccionado = filtrar(contenedorCarritos[idAFiltrar].carrito.productos, idParamProd);
-    if (productoSeleccionado?.httpStatusCode) {
-        return next(productoSeleccionado);
-    }
-    const nombre = productoSeleccionado[0].nombre;
-    const descripcion = productoSeleccionado[0].descripcion;
-    const codigo = productoSeleccionado[0].codigo;
-    const precio = productoSeleccionado[0].precio;
-    const stock = productoSeleccionado[0].stock;
-    const foto = productoSeleccionado[0].foto;
-    const id = productoSeleccionado[0].id;
-    const timestamp = productoSeleccionado[0].timestamp;
-
-    contenedorCarritos[idAFiltrar].carrito.eliminarProducto(idParamProd) //elimino del array
-
-    await  archivo.crearArchivoYsobreEscribir(rutaCarritos, contenedorCarritos);
-    res.json({ nombre, descripcion, codigo, precio, stock, foto, id, timestamp });
-}
-
-module.exports ={
-    carritoPost,
-    carritoDelete,
-    carritoGet,
-    carritoProductoPost,
-    carritoProductoDelete
-}
+module.exports = {
+  carritoPost,
+  carritoDelete,
+  carritoGet,
+  carritoProductoPost,
+  carritoProductoDelete,
+};
