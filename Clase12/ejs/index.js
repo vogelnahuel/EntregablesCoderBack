@@ -48,20 +48,28 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+const Archivo = require('./Archivo.js')
+const archivo = new Archivo();
+const ruta = 'producto.txt';
+const codificacion = 'utf-8';
+
 //sockets
 httpServer.listen(process.env.PORT || 8080, () => {
   console.log("SERVER ON");
 });
 
-io.on("connection", (socket) => {
+io.on("connection", async (socket) => {
 
   socket.on("getProducts", (obj) => {
     productos.push(obj)
-    socket.emit("productList", productos);
+    io.emit("productList", productos);
   });
-  socket.on("getMensaje", (obj) => {
-    mensajes.push(obj)
-    socket.emit("mensajesList", mensajes);
+  socket.on("getMensaje", async (obj) => {
+    let TodosMsj = await archivo.leerArchivo(ruta,codificacion);
+    TodosMsj = JSON.parse(TodosMsj);
+    TodosMsj.push(obj)
+    await archivo.crearArchivoYsobreEscribir(ruta,TodosMsj);
+    io.emit("mensajesList", TodosMsj);
   });
 
 });

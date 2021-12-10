@@ -15,7 +15,7 @@ class Archivo {
     leerArchivo = async (ruta, codificacion) => {
         try {
             const data = await fs.promises.readFile(ruta, codificacion);
-            return (JSON.parse(data));
+            return data;
         } catch (error) {
             console.log(error)
         }
@@ -30,5 +30,3 @@ class Archivo {
 }
 
 module.exports = Archivo;
-
-
