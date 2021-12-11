@@ -1,6 +1,6 @@
-const Server = require("./model/server.ts");
+import Servidor from "./model/server";
 require("dotenv").config();
 
-const server = new Server();
+const server = new Servidor();
 
 server.listen();

@@ -1,6 +1,7 @@
-const httpForbidden  = require('../model/error.ts')
+import httpForbidden from '../model/error';
 
-const filtrar = (array, idParam) => {
+
+export  const filtrar = (array: any[] | undefined, idParam: any) => {
   if (array === undefined || array.length === 0) {
     const error = new httpForbidden("elemento  no encontrado");
     error.httpStatusCode = 404;
@@ -15,16 +16,16 @@ const filtrar = (array, idParam) => {
   return filtrado;
 };
 const multer = require("multer");
-const inicializacionFile = () => {
+
+export const inicializacionFile = () => {
   const storage = multer.diskStorage({
-    destination: function (req, file, callback) {
+    destination: function (req:any, file:any, callback:any) {
       callback(null, "public");
     },
-    filename: function (req, file, callback) {
+    filename: function (req:any, file:any, callback:any) {
       callback(null, file.originalname);
     },
   });
   return storage;
 };
 
-module.exports = { filtrar, inicializacionFile };

@@ -1,17 +1,17 @@
-const { filtrar } = require("../utils/utils.ts");
-const httpForbidden  = require('../model/error.ts')
+import { filtrar } from "../utils/utils";
+import httpForbidden from '../model/error';
 
 //inicializacion de variables donde se guardan id y los productos
-let productos = [];
+let productos: any[] = [];
 
-const Producto = require("../model/productos.ts");
-const Archivo = require("../model/Archivo.ts");
+import Producto from "../model/productos";
+import Archivo from "../model/Archivo";
 const rutaProductos = "archivos/producto.txt";
 
 const codificacion = "utf-8";
 const archivo = new Archivo();
 
-const productoGet = async (req, res, next) => {
+export const productoGet = async (req:any, res:any, next:any) => {
   const idParam = parseInt(req.params.id);
   let contenidoProductosArchivo = await archivo.leerArchivo(
     rutaProductos,
@@ -19,7 +19,7 @@ const productoGet = async (req, res, next) => {
   );
 
   if (idParam) {
-    const filtrado = filtrar(contenidoProductosArchivo, idParam);
+    const filtrado:any = filtrar(contenidoProductosArchivo, idParam);
     if (filtrado?.httpStatusCode) {
       return next(filtrado);
     }
@@ -30,7 +30,7 @@ const productoGet = async (req, res, next) => {
 };
 
 //mandar como nombre thumbnail  el campo si se utiliza desde postman la key para el File
-const productoPost = async (req, res, next) => {
+export const productoPost = async (req:any, res:any, next:any) => {
   const foto = req.file ? req.file : req.body.foto; // para saber si viene de postman o de un form
 
   if (!foto) {
@@ -60,11 +60,11 @@ const productoPost = async (req, res, next) => {
   return res.json(nuevoProducto);
 };
 
-const productoPut = async (req, res, next) => {
+export const productoPut = async (req:any, res:any, next:any) => {
   const foto = req.file ? req.file : req.body.foto;
 
   const idParam = parseInt(req.params.id);
-  const filtrado = filtrar(productos, idParam);
+  const filtrado:any  = filtrar(productos, idParam);
   if (filtrado?.httpStatusCode) {
     return next(filtrado);
   }
@@ -108,10 +108,10 @@ const productoPut = async (req, res, next) => {
   });
 };
 
-const productoDelete = async (req, res, next) => {
+export const productoDelete = async (req:any, res:any, next:any) => {
   const idParam = parseInt(req.params.id);
 
-  const eliminado = filtrar(productos, idParam);
+  const eliminado:any  = filtrar(productos, idParam);
 
   if (eliminado?.httpStatusCode) {
     return next(eliminado);
@@ -124,9 +124,4 @@ const productoDelete = async (req, res, next) => {
   res.json(eliminado[0]);
 };
 
-module.exports = {
-  productoGet,
-  productoPut,
-  productoPost,
-  productoDelete,
-};
+
