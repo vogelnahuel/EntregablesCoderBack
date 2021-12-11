@@ -1,6 +1,7 @@
-const { filtrar } = require("../utils/utils");
-const Archivo = require("../model/Archivo.js");
-const Carrito = require("../model/carrito");
+const { filtrar } = require("../utils/utils.ts");
+const Archivo = require("../model/Archivo.ts");
+const Carrito = require("../model/carrito.ts");
+const httpForbidden  = require('../model/error.ts')
 const rutaCarritos = "archivos/carrito.txt";
 const rutaProductos = "archivos/producto.txt";
 const codificacion = "utf-8";
@@ -60,7 +61,7 @@ const carritoProductoPost = async (req, res, next) => {
   }
   const foto = req.file ? req.file : req.body.foto; // para saber si viene de postman o de un form
   if (!foto) {
-    const error = new Error(" enviar file :( ");
+    const error = new httpForbidden(" enviar file :( ");
     error.httpStatusCode = 400;
     return next(error);
   }
@@ -88,7 +89,7 @@ const carritoProductoPost = async (req, res, next) => {
 
     res.json(seleccionadoProducto[0]);
   } else {
-    const error = new Error("Producto no encontrado ");
+    const error = new httpForbidden("Producto no encontrado ");
     error.httpStatusCode = 400;
     return next(error);
   }

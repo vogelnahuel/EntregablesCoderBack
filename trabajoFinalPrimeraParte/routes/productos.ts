@@ -1,6 +1,6 @@
 const multer = require("multer");
 const { Router } = require("express");
-const { inicializacionFile } = require("../utils/utils");
+const { inicializacionFile } = require("../utils/utils.ts");
 const storage = inicializacionFile();
 const upload = multer({ storage });
 
@@ -9,7 +9,7 @@ const {
   productoPut,
   productoPost,
   productoDelete,
-} = require("../controller/producto");
+} = require("../controller/producto.ts");
 
 const routerProductos = Router();
 

@@ -1,6 +1,10 @@
 const express = require("express");
 
 class Servidor {
+  app
+  port
+  productosPath
+  carritoPath
   constructor() {
     this.app = express();
     this.port = process.env.PORT;
@@ -22,13 +26,13 @@ class Servidor {
   }
 
   routes() {
-    this.app.use(this.productosPath, require("../routes/productos"));
-    this.app.use(this.carritoPath, require("../routes/carrito.js"));
+    this.app.use(this.productosPath, require("../routes/productos.ts"));
+    this.app.use(this.carritoPath, require("../routes/carrito.ts"));
     //ruta por defecto en caso de no encontrarse
     this.app.all("*", (req, res) => {
       res
         .status(404)
-        .json({ error: -2, descripcion:`ruta ${req.url} y  método  ${req.method} no implementados` });
+        .json({ error: -2, descripcion: `ruta ${req.url} y  método  ${req.method} no implementados` });
     });
 
   }

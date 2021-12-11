@@ -1,10 +1,11 @@
-const { filtrar } = require("../utils/utils");
+const { filtrar } = require("../utils/utils.ts");
+const httpForbidden  = require('../model/error.ts')
 
 //inicializacion de variables donde se guardan id y los productos
 let productos = [];
 
-const Producto = require("../model/productos");
-const Archivo = require("../model/Archivo.js");
+const Producto = require("../model/productos.ts");
+const Archivo = require("../model/Archivo.ts");
 const rutaProductos = "archivos/producto.txt";
 
 const codificacion = "utf-8";
@@ -33,7 +34,7 @@ const productoPost = async (req, res, next) => {
   const foto = req.file ? req.file : req.body.foto; // para saber si viene de postman o de un form
 
   if (!foto) {
-    const error = new Error(" enviar file :( ");
+    const error = new httpForbidden(" enviar file :( ");
     error.httpStatusCode = 400;
     return next(error);
   }

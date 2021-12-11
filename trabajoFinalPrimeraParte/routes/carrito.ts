@@ -1,6 +1,6 @@
 const multer = require("multer");
 const { Router } = require("express");
-const { inicializacionFile } = require("../utils/utils");
+const { inicializacionFile } = require("../utils/utils.ts");
 const storage = inicializacionFile();
 const upload = multer({ storage });
 
@@ -10,7 +10,7 @@ const {
   carritoGet,
   carritoProductoPost,
   carritoProductoDelete,
-} = require("../controller/carrito");
+} = require("../controller/carrito.ts");
 
 const routerCarrito = Router();
 

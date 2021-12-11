@@ -1,4 +1,12 @@
 class Producto {
+  nombre
+  descripcion
+  codigo
+  precio
+  stock
+  foto
+  timestamp
+  id
   constructor() {
     this.nombre = "";
     this.descripcion = "";
