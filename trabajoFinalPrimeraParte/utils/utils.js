@@ -1,3 +1,5 @@
+const multer = require("multer");
+
 const filtrar = (array, idParam) => {
   if (array === undefined || array.length === 0) {
     const error = new Error("elemento  no encontrado");
@@ -12,7 +14,7 @@ const filtrar = (array, idParam) => {
   }
   return filtrado;
 };
-const multer = require("multer");
+
 const inicializacionFile = () => {
   const storage = multer.diskStorage({
     destination: function (req, file, callback) {
@@ -25,4 +27,22 @@ const inicializacionFile = () => {
   return storage;
 };
 
-module.exports = { filtrar, inicializacionFile };
+const isAdmin = (req, res, next) => {
+
+  let administrador = req.headers?.administrador;
+
+  administrador = administrador ? JSON.parse(administrador) : false ;
+
+  if (!administrador) {
+
+    res
+      .status(404)
+      .send({ error: -1, descripcion: `ruta ${req.originalUrl} y  método  ${req.method} no autorizada` });
+  }
+  else {
+    next();
+  }
+
+}
+
+module.exports = { filtrar, inicializacionFile, isAdmin };

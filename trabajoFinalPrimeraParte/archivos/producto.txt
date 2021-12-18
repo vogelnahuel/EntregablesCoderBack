@@ -1,12 +1,12 @@
 [
 	{
-		"nombre": "actualizarTest",
-		"descripcion": "actualizarTest",
-		"codigo": "actualizarTest",
-		"precio": "23",
-		"stock": "actualizarTest",
-		"foto": "fondo de pantalla.png",
-		"timestamp": 1639177940272,
+		"nombre": "test3",
+		"descripcion": "test3",
+		"codigo": "test3",
+		"precio": "25",
+		"stock": "test3",
+		"foto": "Sin título2.png",
+		"timestamp": 1639785687222,
 		"id": 1
 	},
 	{
@@ -15,28 +15,18 @@
 		"codigo": "test3",
 		"precio": "25",
 		"stock": "test3",
-		"foto": "fondo de pantalla.png",
-		"timestamp": 1639177933115,
+		"foto": "Sin título2.png",
+		"timestamp": 1639785688545,
 		"id": 2
 	},
 	{
-		"nombre": "actualizarTest",
-		"descripcion": "actualizarTest",
-		"codigo": "actualizarTest",
-		"precio": "23",
-		"stock": "actualizarTest",
-		"foto": "fondo de pantalla.png",
-		"timestamp": 1639177943280,
+		"nombre": "test3",
+		"descripcion": "test3",
+		"codigo": "test3",
+		"precio": "25",
+		"stock": "test3",
+		"foto": "Sin título2.png",
+		"timestamp": 1639785689093,
 		"id": 3
-	},
-	{
-		"nombre": "actualizarTest",
-		"descripcion": "actualizarTest",
-		"codigo": "actualizarTest",
-		"precio": "23",
-		"stock": "actualizarTest",
-		"foto": "fondo de pantalla.png",
-		"timestamp": 1639177945921,
-		"id": 5
 	}
 ]

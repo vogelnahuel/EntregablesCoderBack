@@ -11,7 +11,9 @@ const codificacion = "utf-8";
 const archivo = new Archivo();
 
 const productoGet = async (req, res, next) => {
+
   const idParam = parseInt(req.params.id);
+
   let contenidoProductosArchivo = await archivo.leerArchivo(
     rutaProductos,
     codificacion
@@ -30,6 +32,7 @@ const productoGet = async (req, res, next) => {
 
 //mandar como nombre thumbnail  el campo si se utiliza desde postman la key para el File
 const productoPost = async (req, res, next) => {
+
   const foto = req.file ? req.file : req.body.foto; // para saber si viene de postman o de un form
 
   if (!foto) {
@@ -60,6 +63,7 @@ const productoPost = async (req, res, next) => {
 };
 
 const productoPut = async (req, res, next) => {
+
   const foto = req.file ? req.file : req.body.foto;
 
   const idParam = parseInt(req.params.id);
@@ -108,6 +112,7 @@ const productoPut = async (req, res, next) => {
 };
 
 const productoDelete = async (req, res, next) => {
+
   const idParam = parseInt(req.params.id);
 
   const eliminado = filtrar(productos, idParam);

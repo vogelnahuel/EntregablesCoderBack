@@ -1,4 +1,5 @@
 const express = require("express");
+const {isAdmin} = require('../utils/utils');
 
 class Servidor {
   constructor() {
@@ -19,6 +20,8 @@ class Servidor {
     this.app.use(express.json());
     //directorio publico
     this.app.use(express.static("public"));
+    //  middleware que  verifica si es admin o no 
+    this.app.use(isAdmin) 
   }
 
   routes() {
