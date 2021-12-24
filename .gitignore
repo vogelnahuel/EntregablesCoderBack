@@ -1,3 +1,4 @@
+/node_modules
 Clase03/node_modules
 Clase05/node_modules
 Clase07/node_modules
@@ -5,4 +6,6 @@ Clase10/pug/node_modules
 Clase10/ejs/node_modules
 Clase10/handlebars/node_modules
 Clase12/ejs/node_modules
+Clase13/node_modules
+Clase16/node_modules
 trabajoFinalPrimeraParte/node_modules
