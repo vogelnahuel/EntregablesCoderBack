@@ -50,17 +50,27 @@ const archivo = new Archivo();
 const ruta = 'producto.txt';
 const codificacion = 'utf-8';
 
+//base de datos
+const Contenedor = require('./Contenedor.js');
+const consultas = new Contenedor();
+
 //sockets
 httpServer.listen(process.env.PORT || 8080, () => {
   console.log("SERVER ON");
 });
 
+
+
 io.on("connection", async (socket) => {
 
-  socket.on("getProducts", (obj) => {
-    productos.push(obj)
-    io.emit("productList", productos);
+  socket.on("getProducts", async (obj) => {
+
+    await consultas.save(obj)
+    const arrayProductos  = await consultas.getAll();
+    console.log(arrayProductos)
+    io.emit("productList", arrayProductos);
   });
+
   socket.on("getMensaje", async (obj) => {
     let TodosMsj = await archivo.leerArchivo(ruta,codificacion);
     TodosMsj = JSON.parse(TodosMsj);
