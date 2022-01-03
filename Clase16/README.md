@@ -13,12 +13,4 @@ SELECT * FROM producto
 
 ------------------------------
 
-<div align="center">
-    <img src="/public/insert.jpg" width="400px"/> 
-</div>
-<div align="center">
-    <img src="/public/select.jpg" width="400px"/> 
-</div>
-<div align="center">
-    <img src="/public/create_table.jpg" width="400px"/> 
-</div>
+![](public/insert.jpg)
