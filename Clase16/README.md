@@ -14,11 +14,11 @@ SELECT * FROM producto
 ------------------------------
 
 <div align="center">
-    <img src="/public/insert.jpg" width="400px"/> 
+    <img src="https://github.com/vogelnahuel/EntregablesCoderBack/blob/main/Clase16/public/insert.png" width="400px"/> 
 </div>
 <div align="center">
-    <img src="/public/select.jpg" width="400px"/> 
+    <img src="https://github.com/vogelnahuel/EntregablesCoderBack/blob/main/Clase16/public/select.png" width="400px"/> 
 </div>
 <div align="center">
-    <img src="/public/create_table.jpg" width="400px"/> 
+    <img src="https://github.com/vogelnahuel/EntregablesCoderBack/blob/main/Clase16/public/create_table.png" width="400px"/> 
 </div>
