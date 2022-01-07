@@ -1,0 +1,92 @@
+1)crear base
+use ecommerce
+
+2)crear colecciones y insertar
+ 
+db.productos.insertMany([{
+        "title": "Monstera Deliciosa Varietaga",
+        "precio": 3590,
+        "stock": 10,
+        "thumbnail": "https://www.fotomonstera2.com"
+    },
+    {
+        "title": "Maceta rectangular blanca 35 x 15",
+        "precio": 650,
+        "stock": 8,
+        "thumbnail": "https://www.matricemacetablanca.com"
+    },
+    {
+        "title": "Regadera plastica 5lt",
+        "precio": 1860,
+        "stock": 6,
+        "thumbnail": "https://www.regaderaroja6.com"
+    },
+    {
+        "title": "Pulverizador manual a presion",
+        "precio": 4890,
+        "stock": 4,
+        "thumbnail": "https://www.pulverizadorapresionmanual.com"
+    },
+    {
+        "title": "Planta de Palta joven 2 años",
+        "precio": 2755,
+        "stock": 2,
+        "thumbnail": "https://www.paltajoven.com"
+    }])
+
+
+ db.mensajes.insertMany([
+    {
+        socketID: "3245128482188AF",
+        avatar: "avatar2",
+        mensaje: "Hola! que tal?"
+    },
+    {
+        socketID: "34019374727126EA",
+        avatar: "avatar8",
+        mensaje: "Holas!"
+    },
+    {
+        socketID: "3245128482188AF",
+        avatar: "avatar2",
+        mensaje: "Aca probando el chat, llega?"
+    },
+    {
+        socketID: "34019374727126EA",
+        avatar: "avatar8",
+        mensaje: "Si si llega perfecto"
+    },
+    {
+        socketID: "3245128482188AF",
+        avatar: "avatar2",
+        mensaje: "Pasa un mate o tomas solo?"
+    }
+])
+
+3)listar
+db.productos.find()
+db.mensajes.find()
+
+4)contar documentos
+db.mensajes.estimatedDocumentCount()
+db.productos.estimatedDocumentCount()
+
+5)crud
+
+a)
+db.productos.insertOne({
+        "title": "Jazmin 4 estaciones injertado",
+        "precio": 3245,
+        "stock": 3,
+        "thumbnail": "https://www.jazmingardeniainjert.com"
+})
+
+b)
+db.productos.find({"precio": {$lt: 1000}})
+db.productos.find({precio: {$gte: 1000,$lte: 3000} })
+db.productos.find({"precio": {$gt: 3000}})
+db.productos.find({}).skip(2).limit(1).sort({precio: 1}, {title: 1})
+
+C) db.productos.updateMany({}, {$set: {"stock": 100} })
+D) db.productos.updateMany({"precio": {$gt: 4000}}, {$set: {"stock": 0} })
+E) db.productos.deleteMany({"precio": {$lt: 1000} })
