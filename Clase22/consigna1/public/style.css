@@ -1,0 +1,56 @@
+.img-thumbnail {
+    max-width: 200px;
+}
+.table{
+    max-width: 50vw;
+    min-width: 300px;
+    margin: 0 auto;
+}
+.h1{
+    text-align: center;
+    margin-top: 25px;
+}
+.txt-center {
+    text-align: center;
+}
+.container {
+    overflow: auto;
+    margin-top: 25px;
+    max-width: 650px;
+    max-height: 400px;
+    padding: 15px 20px;
+}
+.contenedor-mensajes{
+    overflow: auto;
+    margin-top: 25px;
+    max-width: 1000px;
+    max-height: 400px;
+    padding: 15px 20px;
+}
+.form-mensajes{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.centrar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
+.display-flex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.email{
+    color: blue;
+}
+.mensaje{
+    color: green;
+    margin-left: 5px;
+}
+.hora{
+    color: red;
+    margin-left: 5px;
+}
