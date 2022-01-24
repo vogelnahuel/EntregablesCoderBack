@@ -1,4 +1,12 @@
 const socket = io();
+// const normalizr = require ('normalizr')
+// const {normalize, denormalize,schema} = normalizr
+
+// const authorSchema = new schema.Entity('author');
+// const mensajeSchema = new schema.Entity('mensaje',{
+//   author:authorSchema,
+//   text:String
+// })
 
 // socket.on("productList", data => {
     
@@ -47,10 +55,18 @@ document.querySelector('#emitirMensaje').addEventListener('click',(e)=>{
 
 
 socket.on("mensajesList", data => {
+
+    // const dataDesnormalizada = denormalize(
+    //     data.result,
+    //     [mensajeSchema],
+    //     data.entities
+    // )
+
+    console.log(data)
     
   
     const div=  document.querySelector('#mensajes')
-    const htmlData = data.map((value) => {
+    const htmlData = dataDesnormalizada.map((value) => {
      return `
             <div class="display-flex">
                 <p class="email">${value.author.id}</p>

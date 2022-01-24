@@ -45,11 +45,22 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-const Archivo = require('./Archivo.js')
-const archivo = new Archivo();
-const ruta = 'producto.txt';
-const codificacion = 'utf-8';
+
+
+
+
+
 const ProductApi = require('./productsApi')
+const normalizr = require ('normalizr')
+const {normalize,schema,denormalize} = normalizr
+const util = require("util")
+
+
+const authorSchema = new schema.Entity('author');
+const mensajeSchema = new schema.Entity('mensaje',{
+  author:authorSchema,
+  text:String
+})
 
 //base de datos
 const Contenedor = require('./Daos/MensajesMongo.js');
@@ -73,10 +84,14 @@ io.on("connection", async (socket) => {
   // });
 
   socket.on("getMensaje", async (obj) => {
+
      await consultas.add(obj)
      const arrayProductos  = await consultas.getAll();
-     console.log("Emitir",arrayProductos)
-     io.emit("mensajesList", arrayProductos);
+
+     const normalizrMensajes = normalizr.normalize(arrayProductos,[{id:1,mensajes:[mensajeSchema]}])
+
+     console.log(normalizrMensajes)
+     io.emit("mensajesList", normalizrMensajes);
   });
 
 });

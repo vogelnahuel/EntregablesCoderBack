@@ -1,5 +1,9 @@
 const mongoose = require("mongoose");
 
+
+
+
+
 const mensajesSchema = new mongoose.Schema(
   {
     text: { type: String },
@@ -11,9 +15,7 @@ const mensajesSchema = new mongoose.Schema(
       alias: { type: String, required: true },
       avatar: { type: String, required: true },
     },
-  },
-  { timestamps: true },
-  { versionKey: false }
+  }
 );
 
 class ProductsMongo {
@@ -34,7 +36,7 @@ class ProductsMongo {
           status: 404,
           msg: "Todavia no hay mensajes cargados en tu base de datos",
         };
-        console.log("base get",mensajesList)
+
       return mensajesList;
     } catch (error) {
       throw error;
