@@ -54,6 +54,9 @@ const ProductApi = require('./productsApi')
 const normalizr = require ('normalizr')
 const {normalize,schema,denormalize} = normalizr
 const util = require("util")
+function print(obj) {
+  console.log(util.inspect(obj, false, 12, true))
+}
 
 
 const authorSchema = new schema.Entity('author');
@@ -88,7 +91,8 @@ io.on("connection", async (socket) => {
      await consultas.add(obj)
      const arrayProductos  = await consultas.getAll();
 
-     const normalizrMensajes = normalizr.normalize(arrayProductos,[{id:1,mensajes:[mensajeSchema]}])
+     const normalizrMensajes = normalizr.normalize(arrayProductos,[mensajeSchema])
+     print(normalizrMensajes)
 
      console.log(normalizrMensajes)
      io.emit("mensajesList", normalizrMensajes);
